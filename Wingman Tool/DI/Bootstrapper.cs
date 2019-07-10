@@ -3,6 +3,10 @@
     using Castle.MicroKernel;
     using Castle.Windsor;
 
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
+
     public class Bootstrapper : IBootstrapper
     {
         private readonly WindsorContainer _container;
@@ -12,10 +16,12 @@
             _container = container;
         }
 
-        public static IBootstrapper BootstrapDependencies()
+        public static IBootstrapper BootstrapApplication()
         {
             WindsorContainer container = new WindsorContainer();
             Bootstrapper bootstrapper = new Bootstrapper(container);
+
+            SetupNlog();
 
             container.Install(new DependenciesInstaller(bootstrapper));
 
@@ -30,6 +36,16 @@
         public T Resolve<T>(Arguments arguments)
         {
             return _container.Resolve<T>(arguments);
+        }
+
+        private static void SetupNlog()
+        {
+            LoggingConfiguration config = new LoggingConfiguration();
+            ConsoleTarget consoleTarget = new ConsoleTarget();
+
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, consoleTarget);
+
+            LogManager.Configuration = config;
         }
     }
 }

@@ -10,7 +10,7 @@
     {
         private static int Main(string[] args)
         {
-            IBootstrapper bootstrapper = Bootstrapper.BootstrapDependencies();
+            IBootstrapper bootstrapper = Bootstrapper.BootstrapApplication();
 
             ICreateHandler createHandler = bootstrapper.Resolve<ICreateHandler>();
             IErrorHandler errorHandler = bootstrapper.Resolve<IErrorHandler>();
