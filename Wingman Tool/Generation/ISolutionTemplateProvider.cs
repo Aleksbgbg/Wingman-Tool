@@ -1,11 +1,9 @@
 ﻿namespace Wingman.Tool.Generation
 {
-    using Wingman.Tool.Cmd;
-
     public interface ISolutionTemplateProvider
     {
-        FileTreeTemplate TemplateFor(ProjectType solutionType, string projectName);
+        FileTreeTemplate TemplateFor(string projectType, string projectName);
 
-        string ContentsFor(ProjectType solutionType, FileTreeEntry file);
+        string ContentsFor(string projectType, FileTreeEntry file);
     }
 }

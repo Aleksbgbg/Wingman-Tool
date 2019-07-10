@@ -1,5 +1,6 @@
 ﻿namespace Wingman.Tool
 {
+    using System;
     using System.Collections.Generic;
 
     using CommandLine;
@@ -16,7 +17,7 @@
         {
             projectGeneratorFactory = Bootstrapper.BootstrapDependencies().Resolve<IProjectGeneratorFactory>();
 
-            return new Parser(settings => settings.CaseInsensitiveEnumValues = true)
+            return Parser.Default
                          .ParseArguments<CreateOptions>(args)
                          .MapResult(RunCreateAndReturnExitCode,
                                     HandleErrors);
@@ -24,6 +25,12 @@
 
         private static int RunCreateAndReturnExitCode(CreateOptions options)
         {
+            if (!projectGeneratorFactory.SupportsProjectType(options.ProjectType))
+            {
+                Console.WriteLine("Project type not supported.");
+                return -1;
+            }
+
             IProjectGenerator projectGenerator = projectGeneratorFactory.CreateGeneratorFor(options.ProjectType);
 
             projectGenerator.GenerateProject(options.Name);
@@ -48,7 +55,7 @@
 
         private static int HandleErrors(IEnumerable<Error> errors)
         {
-            return 1;
+            return -1;
         }
     }
 }

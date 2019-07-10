@@ -14,7 +14,7 @@
 
         private readonly IGitClient _gitClient;
 
-        private readonly ProjectType _projectType;
+        private readonly string _projectType;
 
         private readonly string _solutionDirectory;
 
@@ -23,7 +23,7 @@
                                 IFileManipulator fileManipulator,
                                 ISolutionTemplateProvider solutionTemplateProvider,
                                 IGitClient gitClient,
-                                ProjectType projectType
+                                string projectType
         )
         {
             _directoryManipulator = directoryManipulator;

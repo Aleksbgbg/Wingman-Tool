@@ -9,7 +9,7 @@
         public string Name { get; set; }
 
         [Option('t', "type", Required = true, HelpText = "The project type (e.g. WPF).")]
-        public ProjectType ProjectType { get; set; }
+        public string ProjectType { get; set; }
 
         [Option('g', "use-git", HelpText = "Whether or not to initialize a git repository.")]
         public bool UseGit { get; set; }
