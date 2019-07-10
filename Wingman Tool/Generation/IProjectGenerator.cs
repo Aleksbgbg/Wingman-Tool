@@ -2,7 +2,7 @@
 {
     public interface IProjectGenerator
     {
-        void GenerateProject(string name);
+        void GenerateProject(string projectName);
 
         void InitGit();
 

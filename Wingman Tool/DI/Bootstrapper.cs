@@ -1,5 +1,6 @@
 ﻿namespace Wingman.Tool.DI
 {
+    using Castle.MicroKernel;
     using Castle.Windsor;
 
     public class Bootstrapper : IBootstrapper
@@ -24,6 +25,11 @@
         public T Resolve<T>()
         {
             return _container.Resolve<T>();
+        }
+
+        public T Resolve<T>(Arguments arguments)
+        {
+            return _container.Resolve<T>(arguments);
         }
     }
 }
