@@ -1,6 +1,5 @@
 ﻿namespace Wingman.Tool
 {
-    using System;
     using System.Collections.Generic;
 
     using CommandLine;
@@ -15,7 +14,7 @@
         {
             IBootstrapper bootstrapper = Bootstrapper.BootstrapDependencies();
 
-            return Parser.Default
+            return new Parser(settings => settings.CaseInsensitiveEnumValues = true)
                          .ParseArguments<CreateOptions>(args)
                          .MapResult(options => RunCreateAndReturnExitCode(options, bootstrapper.Resolve<IProjectGeneratorFactory>()),
                                     HandleErrors);
@@ -28,7 +27,6 @@
 
         private static int HandleErrors(IEnumerable<Error> errors)
         {
-            Console.WriteLine("There was an error.");
             return 1;
         }
     }
