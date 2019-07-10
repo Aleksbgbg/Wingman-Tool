@@ -2,6 +2,6 @@
 {
     public interface IProjectDirectoryProvider
     {
-        string CurrentDirectory { get; }
+        string SolutionDirectory { get; }
     }
 }

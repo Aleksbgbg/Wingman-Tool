@@ -34,7 +34,7 @@
 
                 if (options.ReadmeDescription != null)
                 {
-                    projectGenerator.AddReadme(options.ReadmeDescription);
+                    projectGenerator.AddReadme(options.Name, options.ReadmeDescription);
                 }
 
                 if (options.GitRemote != null)

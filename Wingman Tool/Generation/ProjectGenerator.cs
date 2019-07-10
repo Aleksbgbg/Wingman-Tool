@@ -14,7 +14,7 @@
 
         private readonly ProjectType _projectType;
 
-        private readonly string _currentDirectory;
+        private readonly string _solutionDirectory;
 
         public ProjectGenerator(IProjectDirectoryProvider projectDirectoryProvider,
                                 IDirectoryManipulator directoryManipulator,
@@ -29,7 +29,7 @@
             _solutionTemplateProvider = solutionTemplateProvider;
             _gitClient = gitClient;
             _projectType = projectType;
-            _currentDirectory = projectDirectoryProvider.CurrentDirectory;
+            _solutionDirectory = projectDirectoryProvider.SolutionDirectory;
         }
 
         public void GenerateProject(string projectName)
@@ -38,7 +38,7 @@
 
             foreach (FileTreeEntry entry in fileTreeTemplate.Entries)
             {
-                string path = _directoryManipulator.PathNameRelativeToDirectory(_currentDirectory, entry.RelativePath);
+                string path = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, entry.RelativePath);
 
                 if (entry.IsDirectory)
                 {
@@ -57,9 +57,12 @@
             _gitClient.Init();
         }
 
-        public void AddReadme(string description)
+        public void AddReadme(string projectName, string description)
         {
-            throw new System.NotImplementedException();
+            string readmePath = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, "README.md");
+            string readmeContents = $"# {projectName}\n{description}\n";
+
+            _fileManipulator.CreateFile(readmePath, readmeContents);
         }
 
         public void AddRemote(string url)

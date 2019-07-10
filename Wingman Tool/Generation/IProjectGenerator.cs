@@ -6,7 +6,7 @@
 
         void InitGit();
 
-        void AddReadme(string description);
+        void AddReadme(string projectName, string description);
 
         void AddRemote(string url);
     }
