@@ -19,6 +19,8 @@
         {
             container.Register(Component.For<IBootstrapper>()
                                         .Instance(_bootstrapper),
+                               Component.For<ICreateHandler>()
+                                        .ImplementedBy<CreateHandler>(),
                                Component.For<IProjectGeneratorFactory>()
                                         .ImplementedBy<ProjectGeneratorFactory>(),
                                Component.For<IProjectGenerator>()
