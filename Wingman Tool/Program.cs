@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     using CommandLine;
 
@@ -13,9 +14,14 @@
     {
         private static IProjectGeneratorFactory projectGeneratorFactory;
 
+        private static ProjectDirectoryProvider projectDirectoryProvider;
+
         private static int Main(string[] args)
         {
-            projectGeneratorFactory = Bootstrapper.BootstrapDependencies().Resolve<IProjectGeneratorFactory>();
+            IBootstrapper bootstrapper = Bootstrapper.BootstrapDependencies();
+
+            projectGeneratorFactory = bootstrapper.Resolve<IProjectGeneratorFactory>();
+            projectDirectoryProvider = bootstrapper.Resolve<ProjectDirectoryProvider>();
 
             return Parser.Default
                          .ParseArguments<CreateOptions>(args)
@@ -35,6 +41,8 @@
                 Console.WriteLine("Project type not supported.");
                 return -1;
             }
+
+            projectDirectoryProvider.SolutionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, options.Name);
 
             IProjectGenerator projectGenerator = projectGeneratorFactory.CreateGeneratorFor(options.ProjectType);
 

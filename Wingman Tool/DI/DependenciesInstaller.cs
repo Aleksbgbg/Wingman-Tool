@@ -17,8 +17,15 @@
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IBootstrapper>().Instance(_bootstrapper));
-            container.Register(Component.For<IProjectGeneratorFactory>().ImplementedBy<ProjectGeneratorFactory>());
+            container.Register(Component.For<IBootstrapper>()
+                                        .Instance(_bootstrapper),
+                               Component.For<IProjectGeneratorFactory>()
+                                        .ImplementedBy<ProjectGeneratorFactory>(),
+                               Component.For<IProjectGenerator>()
+                                        .ImplementedBy<ProjectGenerator>(),
+                               Component.For<IProjectDirectoryProvider, ProjectDirectoryProvider>()
+                                        .ImplementedBy<ProjectDirectoryProvider>()
+                                        .LifestyleSingleton());
         }
     }
 }
