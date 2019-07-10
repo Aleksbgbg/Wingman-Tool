@@ -1,7 +1,6 @@
 ﻿namespace Wingman.Tool.DI
 {
     using Castle.Windsor;
-    using Castle.Windsor.Installer;
 
     public class Bootstrapper : IBootstrapper
     {
@@ -15,10 +14,11 @@
         public static IBootstrapper BootstrapDependencies()
         {
             WindsorContainer container = new WindsorContainer();
+            Bootstrapper bootstrapper = new Bootstrapper(container);
 
-            container.Install(FromAssembly.This());
+            container.Install(new DependenciesInstaller(bootstrapper));
 
-            return new Bootstrapper(container);
+            return bootstrapper;
         }
 
         public T Resolve<T>()

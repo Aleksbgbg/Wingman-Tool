@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Generation.Wpf
 {
     public class WpfProjectGenerator : IProjectGenerator
     {
