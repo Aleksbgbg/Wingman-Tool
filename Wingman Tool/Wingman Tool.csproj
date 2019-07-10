@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net48;netcoreapp3.0</TargetFrameworks>
+    <RootNamespace>Wingman.Tool</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Castle.Windsor" Version="5.0.0" />
+    <PackageReference Include="CommandLineParser" Version="2.5.0" />
+    <PackageReference Include="NLog" Version="4.6.5" />
+  </ItemGroup>
+</Project>
