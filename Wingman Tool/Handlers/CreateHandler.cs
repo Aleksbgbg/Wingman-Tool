@@ -1,9 +1,10 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Handlers
 {
     using System;
     using System.IO;
 
     using Wingman.Tool.Cmd;
+    using Wingman.Tool.Generation;
 
     public class CreateHandler : ICreateHandler
     {

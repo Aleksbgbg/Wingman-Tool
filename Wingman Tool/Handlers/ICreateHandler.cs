@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Handlers
 {
     using Wingman.Tool.Cmd;
 

@@ -5,6 +5,7 @@
     using Castle.Windsor;
 
     using Wingman.Tool.Generation;
+    using Wingman.Tool.Handlers;
 
     public class DependenciesInstaller : IWindsorInstaller
     {
@@ -21,6 +22,8 @@
                                         .Instance(_bootstrapper),
                                Component.For<ICreateHandler>()
                                         .ImplementedBy<CreateHandler>(),
+                               Component.For<IErrorHandler>()
+                                        .ImplementedBy<ErrorHandler>(),
                                Component.For<IProjectGeneratorFactory>()
                                         .ImplementedBy<ProjectGeneratorFactory>(),
                                Component.For<IProjectGenerator>()

@@ -1,12 +1,10 @@
 ﻿namespace Wingman.Tool
 {
-    using System.Collections.Generic;
-
     using CommandLine;
 
     using Wingman.Tool.Cmd;
     using Wingman.Tool.DI;
-    using Wingman.Tool.Generation;
+    using Wingman.Tool.Handlers;
 
     internal static class Program
     {
@@ -15,16 +13,12 @@
             IBootstrapper bootstrapper = Bootstrapper.BootstrapDependencies();
 
             ICreateHandler createHandler = bootstrapper.Resolve<ICreateHandler>();
+            IErrorHandler errorHandler = bootstrapper.Resolve<IErrorHandler>();
 
             return Parser.Default
                          .ParseArguments<CreateOptions>(args)
                          .MapResult(createHandler.HandleAndReturnExitCode,
-                                    HandleErrors);
-        }
-
-        private static int HandleErrors(IEnumerable<Error> errors)
-        {
-            return -1;
+                                    errorHandler.HandleAndReturnExitCode);
         }
     }
 }
