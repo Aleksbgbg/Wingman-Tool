@@ -25,6 +25,11 @@
 
         private static int RunCreateAndReturnExitCode(CreateOptions options)
         {
+            if (options.UnitTest)
+            {
+                options.ProjectType += "UnitTest";
+            }
+
             if (!projectGeneratorFactory.SupportsProjectType(options.ProjectType))
             {
                 Console.WriteLine("Project type not supported.");

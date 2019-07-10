@@ -11,6 +11,9 @@
         [Option('t', "type", Required = true, HelpText = "The project type (e.g. WPF).")]
         public string ProjectType { get; set; }
 
+        [Option('u', "unit-test", HelpText = "Whether to add a unit test project to the solution.")]
+        public bool UnitTest { get; set; }
+
         [Option('g', "use-git", HelpText = "Whether or not to initialize a git repository.")]
         public bool UseGit { get; set; }
 
