@@ -1,5 +1,7 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System;
+
     using Wingman.Tool.Cmd;
 
     public class ProjectGenerator : IProjectGenerator
@@ -60,7 +62,7 @@
         public void AddReadme(string projectName, string description)
         {
             string readmePath = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, "README.md");
-            string readmeContents = $"# {projectName}\n{description}\n";
+            string readmeContents = $"# {projectName}{Environment.NewLine}{description}{Environment.NewLine}";
 
             _fileManipulator.CreateFile(readmePath, readmeContents);
         }
