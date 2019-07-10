@@ -4,7 +4,7 @@
 
     public interface ISolutionTemplateProvider
     {
-        FileTreeTemplate TemplateFor(ProjectType solutionType);
+        FileTreeTemplate TemplateFor(ProjectType solutionType, string projectName);
 
         string ContentsFor(ProjectType solutionType, FileTreeEntry file);
     }

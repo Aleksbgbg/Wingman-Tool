@@ -34,7 +34,7 @@
 
         public void GenerateProject(string projectName)
         {
-            FileTreeTemplate fileTreeTemplate = _solutionTemplateProvider.TemplateFor(_projectType);
+            FileTreeTemplate fileTreeTemplate = _solutionTemplateProvider.TemplateFor(_projectType, projectName);
 
             foreach (FileTreeEntry entry in fileTreeTemplate.Entries)
             {
