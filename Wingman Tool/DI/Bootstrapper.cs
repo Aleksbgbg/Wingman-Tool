@@ -19,11 +19,11 @@
         public static IBootstrapper BootstrapApplication()
         {
             WindsorContainer container = new WindsorContainer();
+
             Bootstrapper bootstrapper = new Bootstrapper(container);
+            ILogger logger = SetupNlog();
 
-            SetupNlog();
-
-            container.Install(new DependenciesInstaller(bootstrapper));
+            container.Install(new DependenciesInstaller(bootstrapper, logger));
 
             return bootstrapper;
         }
@@ -38,14 +38,19 @@
             return _container.Resolve<T>(arguments);
         }
 
-        private static void SetupNlog()
+        private static ILogger SetupNlog()
         {
             LoggingConfiguration config = new LoggingConfiguration();
-            ConsoleTarget consoleTarget = new ConsoleTarget();
+            ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget
+            {
+                Layout = @"${date:format=HH\:mm\:ss} ${level:padding=5:uppercase=true} ${message}"
+            };
 
             config.AddRule(LogLevel.Info, LogLevel.Fatal, consoleTarget);
 
             LogManager.Configuration = config;
+
+            return LogManager.LogFactory.GetLogger("Main");
         }
     }
 }

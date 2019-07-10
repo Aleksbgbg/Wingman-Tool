@@ -3,6 +3,8 @@
     using System;
     using System.IO;
 
+    using NLog;
+
     using Wingman.Tool.Cmd;
     using Wingman.Tool.Generation;
 
@@ -12,10 +14,13 @@
 
         private readonly ProjectDirectoryProvider _projectDirectoryProvider;
 
-        public CreateHandler(IProjectGeneratorFactory projectGeneratorFactory, ProjectDirectoryProvider projectDirectoryProvider)
+        private readonly ILogger _logger;
+
+        public CreateHandler(IProjectGeneratorFactory projectGeneratorFactory, ProjectDirectoryProvider projectDirectoryProvider, ILogger logger)
         {
             _projectGeneratorFactory = projectGeneratorFactory;
             _projectDirectoryProvider = projectDirectoryProvider;
+            _logger = logger;
         }
 
         public int HandleAndReturnExitCode(CreateOptions options)
@@ -27,7 +32,7 @@
 
             if (!_projectGeneratorFactory.SupportsProjectType(options.ProjectType))
             {
-                Console.WriteLine("Project type not supported.");
+                _logger.Error("Project type not supported.");
                 return -1;
             }
 

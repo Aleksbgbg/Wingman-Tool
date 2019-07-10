@@ -4,6 +4,8 @@
     using Castle.MicroKernel.SubSystems.Configuration;
     using Castle.Windsor;
 
+    using NLog;
+
     using Wingman.Tool.Generation;
     using Wingman.Tool.Handlers;
 
@@ -11,15 +13,20 @@
     {
         private readonly IBootstrapper _bootstrapper;
 
-        public DependenciesInstaller(IBootstrapper bootstrapper)
+        private readonly ILogger _logger;
+
+        public DependenciesInstaller(IBootstrapper bootstrapper, ILogger logger)
         {
             _bootstrapper = bootstrapper;
+            _logger = logger;
         }
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Component.For<IBootstrapper>()
                                         .Instance(_bootstrapper),
+                               Component.For<ILogger>()
+                                        .Instance(_logger),
                                Component.For<ICreateHandler>()
                                         .ImplementedBy<CreateHandler>(),
                                Component.For<IErrorHandler>()
