@@ -10,11 +10,11 @@
 
     internal static class Program
     {
-        private static IProjectGeneratorFactory _projectGeneratorFactory;
+        private static IProjectGeneratorFactory projectGeneratorFactory;
 
         private static int Main(string[] args)
         {
-            _projectGeneratorFactory = Bootstrapper.BootstrapDependencies().Resolve<IProjectGeneratorFactory>();
+            projectGeneratorFactory = Bootstrapper.BootstrapDependencies().Resolve<IProjectGeneratorFactory>();
 
             return new Parser(settings => settings.CaseInsensitiveEnumValues = true)
                          .ParseArguments<CreateOptions>(args)
@@ -24,6 +24,25 @@
 
         private static int RunCreateAndReturnExitCode(CreateOptions options)
         {
+            IProjectGenerator projectGenerator = projectGeneratorFactory.CreateGeneratorFor(options.ProjectType);
+
+            projectGenerator.GenerateProject(options.Name);
+
+            if (options.UseGit)
+            {
+                projectGenerator.InitGit();
+
+                if (options.ReadmeDescription != null)
+                {
+                    projectGenerator.AddReadme(options.ReadmeDescription);
+                }
+
+                if (options.GitRemote != null)
+                {
+                    projectGenerator.AddRemote(options.GitRemote);
+                }
+            }
+
             return 0;
         }
 
