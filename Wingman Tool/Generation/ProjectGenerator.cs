@@ -10,6 +10,8 @@
 
         private readonly ISolutionTemplateProvider _solutionTemplateProvider;
 
+        private readonly IGitClient _gitClient;
+
         private readonly ProjectType _projectType;
 
         private readonly string _currentDirectory;
@@ -18,12 +20,14 @@
                                 IDirectoryManipulator directoryManipulator,
                                 IFileManipulator fileManipulator,
                                 ISolutionTemplateProvider solutionTemplateProvider,
+                                IGitClient gitClient,
                                 ProjectType projectType
         )
         {
             _directoryManipulator = directoryManipulator;
             _fileManipulator = fileManipulator;
             _solutionTemplateProvider = solutionTemplateProvider;
+            _gitClient = gitClient;
             _projectType = projectType;
             _currentDirectory = projectDirectoryProvider.CurrentDirectory;
         }
@@ -50,7 +54,7 @@
 
         public void InitGit()
         {
-            throw new System.NotImplementedException();
+            _gitClient.Init();
         }
 
         public void AddReadme(string description)
@@ -58,9 +62,9 @@
             throw new System.NotImplementedException();
         }
 
-        public void AddRemote(string remote)
+        public void AddRemote(string url)
         {
-            throw new System.NotImplementedException();
+            _gitClient.AddRemote(url);
         }
     }
 }

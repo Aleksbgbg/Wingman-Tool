@@ -8,6 +8,6 @@
 
         void AddReadme(string description);
 
-        void AddRemote(string remote);
+        void AddRemote(string url);
     }
 }
