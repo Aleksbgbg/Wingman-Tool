@@ -10,17 +10,19 @@
 
     internal static class Program
     {
+        private static IProjectGeneratorFactory _projectGeneratorFactory;
+
         private static int Main(string[] args)
         {
-            IBootstrapper bootstrapper = Bootstrapper.BootstrapDependencies();
+            _projectGeneratorFactory = Bootstrapper.BootstrapDependencies().Resolve<IProjectGeneratorFactory>();
 
             return new Parser(settings => settings.CaseInsensitiveEnumValues = true)
                          .ParseArguments<CreateOptions>(args)
-                         .MapResult(options => RunCreateAndReturnExitCode(options, bootstrapper.Resolve<IProjectGeneratorFactory>()),
+                         .MapResult(RunCreateAndReturnExitCode,
                                     HandleErrors);
         }
 
-        private static int RunCreateAndReturnExitCode(CreateOptions options, IProjectGeneratorFactory projectGeneratorFactory)
+        private static int RunCreateAndReturnExitCode(CreateOptions options)
         {
             return 0;
         }
