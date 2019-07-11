@@ -8,9 +8,9 @@
 
     using Wingman.Tool.Generation;
 
-    public class ToolApiClient : IToolApiClient
+    public class ToolApiClient : ITemplateApiClient, IGitApiClient
     {
-        private const string BaseAddress = "http://localhost:53371/wingman-tool/template/";
+        private const string BaseAddress = "http://localhost:53371/wingman-tool/";
 
         private readonly HttpClient _httpClient;
 
@@ -24,19 +24,44 @@
 
         public async Task<bool> IsSupported(string projectType)
         {
-            string isSupported = await _httpClient.GetStringAsync($"is-supported/{projectType}");
+            string isSupported = await GetTemplate($"is-supported/{projectType}");
             return bool.Parse(isSupported);
         }
 
         public async Task<FileTreeTemplate> FileTreeTemplateFor(string projectType)
         {
-            string templateString = await _httpClient.GetStringAsync(projectType);
+            string templateString = await GetTemplate(projectType);
             return JsonConvert.DeserializeObject<FileTreeTemplate>(templateString);
         }
 
-        public async Task<string> RenderFile(string projectType, string projectName, string relativePath)
+        public Task<string> RenderFile(string projectType, string projectName, string relativePath)
         {
-            return await _httpClient.GetStringAsync($"file/{projectType}/{projectName}?{nameof(relativePath)}={relativePath}");
+            return GetTemplate($"file/{projectType}/{projectName}?{nameof(relativePath)}={relativePath}");
+        }
+
+        private Task<string> GetTemplate(string url)
+        {
+            return GetString($"template/{url}");
+        }
+
+        public Task<string> GitAttributes()
+        {
+            return GetGit("attributes");
+        }
+
+        public Task<string> GitIgnore()
+        {
+            return GetGit("ignore");
+        }
+
+        private Task<string> GetGit(string url)
+        {
+            return GetString($"git/{url}");
+        }
+
+        private Task<string> GetString(string url)
+        {
+            return _httpClient.GetStringAsync(url);
         }
     }
 }

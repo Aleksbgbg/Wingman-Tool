@@ -4,7 +4,7 @@
 
     using Wingman.Tool.Generation;
 
-    public interface IToolApiClient
+    public interface ITemplateApiClient
     {
         Task<bool> IsSupported(string projectType);
 

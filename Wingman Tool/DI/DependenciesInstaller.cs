@@ -45,7 +45,7 @@
                                         .LifestyleSingleton(),
                                Component.For<ISupportedSolutionTemplates, ISolutionTemplateProvider>()
                                         .ImplementedBy<SolutionTemplateProvider>(),
-                               Component.For<IToolApiClient>()
+                               Component.For<IGitApiClient, ITemplateApiClient>()
                                         .ImplementedBy<ToolApiClient>(),
                                Component.For<IGitClient>()
                                         .ImplementedBy<GitClient>(),

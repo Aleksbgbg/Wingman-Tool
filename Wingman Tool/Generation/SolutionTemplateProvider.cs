@@ -6,21 +6,21 @@
 
     public class SolutionTemplateProvider : ISupportedSolutionTemplates, ISolutionTemplateProvider
     {
-        private readonly IToolApiClient _toolApiClient;
+        private readonly ITemplateApiClient _templateApiClient;
 
-        public SolutionTemplateProvider(IToolApiClient toolApiClient)
+        public SolutionTemplateProvider(ITemplateApiClient templateApiClient)
         {
-            _toolApiClient = toolApiClient;
+            _templateApiClient = templateApiClient;
         }
 
         public Task<bool> IsSupported(string projectType)
         {
-            return _toolApiClient.IsSupported(projectType);
+            return _templateApiClient.IsSupported(projectType);
         }
 
         public Task<FileTreeTemplate> TemplateFor(string projectType)
         {
-            return _toolApiClient.FileTreeTemplateFor(projectType);
+            return _templateApiClient.FileTreeTemplateFor(projectType);
         }
 
         public async Task<RenderedFileTreeEntry> RenderFileTreeEntry(string projectType, string projectName, FileTreeEntry entry)
@@ -29,7 +29,7 @@
 
             if (!entry.IsDirectory)
             {
-                fileContents = await _toolApiClient.RenderFile(projectType, projectName, entry.RelativePath);
+                fileContents = await _templateApiClient.RenderFile(projectType, projectName, entry.RelativePath);
             }
 
             return new RenderedFileTreeEntry(relativePath: ReplaceProjectNameTokens(entry.RelativePath, projectName),
