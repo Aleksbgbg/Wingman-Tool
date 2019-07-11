@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Generation.Git
 {
     using System.Diagnostics;
     using System.IO;

@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Api
+﻿namespace Wingman.Tool.Generation.Api
 {
     using System.Threading.Tasks;
 

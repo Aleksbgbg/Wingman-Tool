@@ -1,6 +1,6 @@
 ﻿namespace Wingman.Tool.Handlers
 {
-    using Wingman.Tool.Cmd;
+    using Wingman.Tool.Handlers.Options;
 
     public interface ICreateHandler
     {

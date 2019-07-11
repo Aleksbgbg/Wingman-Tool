@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Generation.Templates
 {
     using System.Threading.Tasks;
 

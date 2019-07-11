@@ -1,8 +1,8 @@
-﻿namespace Wingman.Tool.Api
+﻿namespace Wingman.Tool.Generation.Api
 {
     using System.Threading.Tasks;
 
-    using Wingman.Tool.Generation;
+    using Wingman.Tool.Generation.Templates;
 
     public interface ITemplateApiClient
     {

@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Cmd
+﻿namespace Wingman.Tool.Handlers.Options
 {
     using CommandLine;
 

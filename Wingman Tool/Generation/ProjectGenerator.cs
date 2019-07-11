@@ -5,7 +5,10 @@
 
     using NLog;
 
-    using Wingman.Tool.Api;
+    using Wingman.Tool.Generation.Api;
+    using Wingman.Tool.Generation.FileIO;
+    using Wingman.Tool.Generation.Git;
+    using Wingman.Tool.Generation.Templates;
 
     public class ProjectGenerator : IProjectGenerator
     {

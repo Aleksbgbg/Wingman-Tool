@@ -5,6 +5,7 @@
     using Castle.MicroKernel;
 
     using Wingman.Tool.DI;
+    using Wingman.Tool.Generation.Templates;
 
     public class ProjectGeneratorFactory : IProjectGeneratorFactory
     {

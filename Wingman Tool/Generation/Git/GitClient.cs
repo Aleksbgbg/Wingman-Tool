@@ -1,8 +1,10 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Generation.Git
 {
     using System.ComponentModel;
 
     using NLog;
+
+    using Wingman.Tool.Generation.FileIO;
 
     public class GitClient : IGitClient
     {

@@ -1,8 +1,8 @@
-﻿namespace Wingman.Tool.Generation
+﻿namespace Wingman.Tool.Generation.Templates
 {
     using System.Threading.Tasks;
 
-    using Wingman.Tool.Api;
+    using Wingman.Tool.Generation.Api;
 
     public class SolutionTemplateProvider : ISupportedSolutionTemplates, ISolutionTemplateProvider
     {

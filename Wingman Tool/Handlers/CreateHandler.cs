@@ -6,8 +6,9 @@
 
     using NLog;
 
-    using Wingman.Tool.Cmd;
     using Wingman.Tool.Generation;
+    using Wingman.Tool.Generation.FileIO;
+    using Wingman.Tool.Handlers.Options;
 
     public class CreateHandler : ICreateHandler
     {

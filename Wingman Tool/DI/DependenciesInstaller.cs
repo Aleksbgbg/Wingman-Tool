@@ -6,8 +6,11 @@
 
     using NLog;
 
-    using Wingman.Tool.Api;
     using Wingman.Tool.Generation;
+    using Wingman.Tool.Generation.Api;
+    using Wingman.Tool.Generation.FileIO;
+    using Wingman.Tool.Generation.Git;
+    using Wingman.Tool.Generation.Templates;
     using Wingman.Tool.Handlers;
 
     public class DependenciesInstaller : IWindsorInstaller

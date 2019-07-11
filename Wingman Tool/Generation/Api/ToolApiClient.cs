@@ -1,4 +1,4 @@
-﻿namespace Wingman.Tool.Api
+﻿namespace Wingman.Tool.Generation.Api
 {
     using System;
     using System.Net.Http;
@@ -6,7 +6,7 @@
 
     using Newtonsoft.Json;
 
-    using Wingman.Tool.Generation;
+    using Wingman.Tool.Generation.Templates;
 
     public class ToolApiClient : ITemplateApiClient, IGitApiClient
     {
