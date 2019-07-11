@@ -41,7 +41,7 @@
 
             if (!(await _projectGeneratorFactory.SupportsProjectType(options.ProjectType)))
             {
-                _logger.Warn("Project type not supported.");
+                _logger.Warn("Project type {ProjectType} not supported.", options.ProjectType);
                 return -1;
             }
 
