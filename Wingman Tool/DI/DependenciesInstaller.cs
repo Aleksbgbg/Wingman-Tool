@@ -36,6 +36,10 @@
                                         .ImplementedBy<ProjectGeneratorFactory>(),
                                Component.For<IProjectGenerator>()
                                         .ImplementedBy<ProjectGenerator>(),
+                               Component.For<IDirectoryManipulator>()
+                                        .ImplementedBy<DirectoryManipulator>(),
+                               Component.For<IFileManipulator>()
+                                        .ImplementedBy<FileManipulator>(),
                                Component.For<IProjectDirectoryProvider, ProjectDirectoryProvider>()
                                         .ImplementedBy<ProjectDirectoryProvider>()
                                         .LifestyleSingleton(),
