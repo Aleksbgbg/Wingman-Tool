@@ -30,7 +30,7 @@
 
         public async Task<FileTreeTemplate> FileTreeTemplateFor(string projectType)
         {
-            string templateString = await _httpClient.GetStringAsync($"{projectType}");
+            string templateString = await _httpClient.GetStringAsync(projectType);
             return JsonConvert.DeserializeObject<FileTreeTemplate>(templateString);
         }
 
