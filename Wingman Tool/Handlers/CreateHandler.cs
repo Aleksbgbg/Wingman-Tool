@@ -17,11 +17,14 @@
 
         private readonly ILogger _logger;
 
-        public CreateHandler(IProjectGeneratorFactory projectGeneratorFactory, ProjectDirectoryProvider projectDirectoryProvider, ILogger logger)
+        private readonly IDirectoryManipulator _directoryManipulator;
+
+        public CreateHandler(IProjectGeneratorFactory projectGeneratorFactory, ProjectDirectoryProvider projectDirectoryProvider, ILogger logger, IDirectoryManipulator directoryManipulator)
         {
             _projectGeneratorFactory = projectGeneratorFactory;
             _projectDirectoryProvider = projectDirectoryProvider;
             _logger = logger;
+            _directoryManipulator = directoryManipulator;
         }
 
         public int HandleAndReturnExitCode(CreateOptions options)
@@ -38,29 +41,38 @@
 
             if (!(await _projectGeneratorFactory.SupportsProjectType(options.ProjectType)))
             {
-                _logger.Error("Project type not supported.");
+                _logger.Warn("Project type not supported.");
                 return -1;
             }
 
             _projectDirectoryProvider.SolutionDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, options.Name);
+            _logger.Info($"Generating solution directory \"{options.Name}\".");
+            _directoryManipulator.CreateDirectory(_projectDirectoryProvider.SolutionDirectory);
 
             IProjectGenerator projectGenerator = _projectGeneratorFactory.CreateGeneratorFor(options.ProjectType);
 
-            await projectGenerator.GenerateProject(options.Name);
-
-            if (options.UseGit)
+            try
             {
-                projectGenerator.InitGit();
+                await projectGenerator.GenerateProject(options.Name);
 
-                if (options.ReadmeDescription != null)
+                if (options.UseGit)
                 {
-                    projectGenerator.AddReadme(options.Name, options.ReadmeDescription);
-                }
+                    projectGenerator.InitGit();
 
-                if (options.GitRemote != null)
-                {
-                    projectGenerator.AddRemote(options.GitRemote);
+                    if (options.ReadmeDescription != null)
+                    {
+                        projectGenerator.AddReadme(options.Name, options.ReadmeDescription);
+                    }
+
+                    if (options.GitRemote != null)
+                    {
+                        projectGenerator.AddRemote(options.GitRemote);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                _logger.Error("An error ocurred during project generation.");
             }
 
             return 0;

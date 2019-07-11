@@ -2,6 +2,8 @@
 {
     using CommandLine;
 
+    using NLog;
+
     using Wingman.Tool.Cmd;
     using Wingman.Tool.DI;
     using Wingman.Tool.Handlers;
@@ -15,10 +17,15 @@
             ICreateHandler createHandler = bootstrapper.Resolve<ICreateHandler>();
             IErrorHandler errorHandler = bootstrapper.Resolve<IErrorHandler>();
 
-            return Parser.Default
-                         .ParseArguments<CreateOptions>(args)
-                         .MapResult(createHandler.HandleAndReturnExitCode,
-                                    errorHandler.HandleAndReturnExitCode);
+            int exitCode = Parser.Default
+                                 .ParseArguments<CreateOptions>(args)
+                                 .MapResult(createHandler.HandleAndReturnExitCode,
+                                            errorHandler.HandleAndReturnExitCode);
+
+            ILogger logger = bootstrapper.Resolve<ILogger>();
+            logger.Factory.Flush();
+
+            return exitCode;
         }
     }
 }
