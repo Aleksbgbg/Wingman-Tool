@@ -1,8 +1,10 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.Threading.Tasks;
+
     public interface IProjectGeneratorFactory
     {
-        bool SupportsProjectType(string projectType);
+        Task<bool> SupportsProjectType(string projectType);
 
         IProjectGenerator CreateGeneratorFor(string projectType);
     }

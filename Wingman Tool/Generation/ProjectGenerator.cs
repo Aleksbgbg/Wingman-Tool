@@ -1,6 +1,7 @@
 ﻿namespace Wingman.Tool.Generation
 {
     using System;
+    using System.Threading.Tasks;
 
     public class ProjectGenerator : IProjectGenerator
     {
@@ -32,13 +33,13 @@
             _solutionDirectory = projectDirectoryProvider.SolutionDirectory;
         }
 
-        public void GenerateProject(string projectName)
+        public async Task GenerateProject(string projectName)
         {
-            FileTreeTemplate fileTreeTemplate = _solutionTemplateProvider.TemplateFor(_projectType);
+            FileTreeTemplate fileTreeTemplate = await _solutionTemplateProvider.TemplateFor(_projectType);
 
             foreach (FileTreeEntry fileTreeEntry in fileTreeTemplate.Entries)
             {
-                RenderedFileTreeEntry renderedEntry = _solutionTemplateProvider.RenderFileTreeEntry(_projectType, projectName, fileTreeEntry);
+                RenderedFileTreeEntry renderedEntry = await _solutionTemplateProvider.RenderFileTreeEntry(_projectType, projectName, fileTreeEntry);
 
                 string path = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, renderedEntry.RelativePath);
 

@@ -1,8 +1,10 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.Threading.Tasks;
+
     public interface IProjectGenerator
     {
-        void GenerateProject(string projectName);
+        Task GenerateProject(string projectName);
 
         void InitGit();
 

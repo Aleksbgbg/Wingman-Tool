@@ -6,6 +6,7 @@
 
     using NLog;
 
+    using Wingman.Tool.Api;
     using Wingman.Tool.Generation;
     using Wingman.Tool.Handlers;
 
@@ -39,7 +40,9 @@
                                         .ImplementedBy<ProjectDirectoryProvider>()
                                         .LifestyleSingleton(),
                                Component.For<ISupportedSolutionTemplates, ISolutionTemplateProvider>()
-                                        .ImplementedBy<SolutionTemplateProvider>());
+                                        .ImplementedBy<SolutionTemplateProvider>(),
+                               Component.For<IToolApiClient>()
+                                        .ImplementedBy<ToolApiClient>());
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.Threading.Tasks;
+
     public interface ISupportedSolutionTemplates
     {
-        bool IsSupported(string projectType);
+        Task<bool> IsSupported(string projectType);
     }
 }

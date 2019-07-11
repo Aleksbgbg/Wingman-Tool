@@ -1,9 +1,11 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.Threading.Tasks;
+
     public interface ISolutionTemplateProvider
     {
-        FileTreeTemplate TemplateFor(string projectType);
+        Task<FileTreeTemplate> TemplateFor(string projectType);
 
-        RenderedFileTreeEntry RenderFileTreeEntry(string projectType, string projectName, FileTreeEntry entry);
+        Task<RenderedFileTreeEntry> RenderFileTreeEntry(string projectType, string projectName, FileTreeEntry entry);
     }
 }

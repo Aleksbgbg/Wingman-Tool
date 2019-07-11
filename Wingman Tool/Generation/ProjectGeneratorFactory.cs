@@ -1,5 +1,7 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.Threading.Tasks;
+
     using Castle.MicroKernel;
 
     using Wingman.Tool.DI;
@@ -16,7 +18,7 @@
             _supportedSolutionTemplates = supportedSolutionTemplates;
         }
 
-        public bool SupportsProjectType(string projectType)
+        public Task<bool> SupportsProjectType(string projectType)
         {
             return _supportedSolutionTemplates.IsSupported(projectType);
         }

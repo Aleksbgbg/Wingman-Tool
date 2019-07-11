@@ -1,13 +1,15 @@
 ﻿namespace Wingman.Tool.Api
 {
+    using System.Threading.Tasks;
+
     using Wingman.Tool.Generation;
 
     public interface IToolApiClient
     {
-        bool IsSupported(string projectType);
+        Task<bool> IsSupported(string projectType);
 
-        FileTreeTemplate FileTreeTemplateFor(string projectType);
+        Task<FileTreeTemplate> FileTreeTemplateFor(string projectType);
 
-        string RenderFile(string projectType, string projectName, string relativePath);
+        Task<string> RenderFile(string projectType, string projectName, string relativePath);
     }
 }

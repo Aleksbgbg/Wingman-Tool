@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
     using NLog;
 
@@ -25,12 +26,17 @@
 
         public int HandleAndReturnExitCode(CreateOptions options)
         {
+            return HandleAndReturnExitCodeAsync(options).ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        private async Task<int> HandleAndReturnExitCodeAsync(CreateOptions options)
+        {
             if (options.UnitTest)
             {
                 options.ProjectType += "UnitTest";
             }
 
-            if (!_projectGeneratorFactory.SupportsProjectType(options.ProjectType))
+            if (!(await _projectGeneratorFactory.SupportsProjectType(options.ProjectType)))
             {
                 _logger.Error("Project type not supported.");
                 return -1;
@@ -40,7 +46,7 @@
 
             IProjectGenerator projectGenerator = _projectGeneratorFactory.CreateGeneratorFor(options.ProjectType);
 
-            projectGenerator.GenerateProject(options.Name);
+            await projectGenerator.GenerateProject(options.Name);
 
             if (options.UseGit)
             {
