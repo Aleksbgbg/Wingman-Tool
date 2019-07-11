@@ -5,6 +5,8 @@
 
     using NLog;
 
+    using Wingman.Tool.Api;
+
     public class ProjectGenerator : IProjectGenerator
     {
         private readonly IDirectoryManipulator _directoryManipulator;
@@ -14,6 +16,8 @@
         private readonly ISolutionTemplateProvider _solutionTemplateProvider;
 
         private readonly IGitClient _gitClient;
+
+        private readonly IGitApiClient _gitApiClient;
 
         private readonly ILogger _logger;
 
@@ -26,6 +30,7 @@
                                 IFileManipulator fileManipulator,
                                 ISolutionTemplateProvider solutionTemplateProvider,
                                 IGitClient gitClient,
+                                IGitApiClient gitApiClient,
                                 ILogger logger,
                                 string projectType
         )
@@ -34,6 +39,7 @@
             _fileManipulator = fileManipulator;
             _solutionTemplateProvider = solutionTemplateProvider;
             _gitClient = gitClient;
+            _gitApiClient = gitApiClient;
             _logger = logger;
             _projectType = projectType;
             _solutionDirectory = projectDirectoryProvider.SolutionDirectory;
@@ -70,21 +76,53 @@
             _gitClient.Init();
         }
 
+        public async Task AddGitMetadata()
+        {
+            AddFile(".gitattributes", await _gitApiClient.GetGitAttributes());
+            AddFile(".gitignore", await _gitApiClient.GetGitIgnore());
+        }
+
         public void AddReadme(string projectName, string description)
         {
-            const string readmeRelativePath = "README.md";
-            string readmePath = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, readmeRelativePath);
-            string readmeContents = $"# {projectName}{Environment.NewLine}{description}{Environment.NewLine}";
+            AddFileLogContents("README.md", $"# {projectName}{Environment.NewLine}{description}{Environment.NewLine}");
+        }
 
-            LogFile(readmeRelativePath);
-            _logger.Info($"README contents:\n{readmeContents}");
-            _fileManipulator.CreateFile(readmePath, readmeContents);
+        public void Commit(string commitMessage)
+        {
+            _logger.Info("Adding repository files to staging area.");
+            _gitClient.AddAll();
+
+            _logger.Info("Committing files in staging area with message {CommitMessage}.", commitMessage);
+            _gitClient.Commit(commitMessage);
         }
 
         public void AddRemote(string url)
         {
             _logger.Info("Adding git remote (origin) at {Url}.", url);
             _gitClient.AddRemote(url);
+        }
+
+        public void Push()
+        {
+            _logger.Info("Pushing commits to origin remote, master branch.");
+            _gitClient.Push();
+        }
+
+        private void AddFile(string relativePath, string contents)
+        {
+            string fullPath = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, relativePath);
+
+            LogFile(relativePath);
+            _fileManipulator.CreateFile(fullPath, contents);
+        }
+
+        private void AddFileLogContents(string relativePath, string contents)
+        {
+            string fullPath = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, relativePath);
+
+            LogFile(relativePath);
+            _logger.Info($"{{RelativePath}} contents:\n{contents}", relativePath);
+            _fileManipulator.CreateFile(fullPath, contents);
         }
 
         private void LogFile(string relativePath)

@@ -55,18 +55,33 @@
             {
                 await projectGenerator.GenerateProject(options.Name);
 
-                if (options.UseGit)
+                if (options.InitGit)
                 {
                     projectGenerator.InitGit();
+
+                    if (options.UseGitMetadata)
+                    {
+                        await projectGenerator.AddGitMetadata();
+                    }
 
                     if (options.ReadmeDescription != null)
                     {
                         projectGenerator.AddReadme(options.Name, options.ReadmeDescription);
                     }
 
+                    if (options.CommitMessage != null)
+                    {
+                        projectGenerator.Commit(options.CommitMessage);
+                    }
+
                     if (options.GitRemote != null)
                     {
                         projectGenerator.AddRemote(options.GitRemote);
+
+                        if (options.Push)
+                        {
+                            projectGenerator.Push();
+                        }
                     }
                 }
             }

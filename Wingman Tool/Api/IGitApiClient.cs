@@ -4,8 +4,8 @@
 
     public interface IGitApiClient
     {
-        Task<string> GitAttributes();
+        Task<string> GetGitAttributes();
 
-        Task<string> GitIgnore();
+        Task<string> GetGitIgnore();
     }
 }

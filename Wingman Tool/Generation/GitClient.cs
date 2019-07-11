@@ -17,9 +17,24 @@
             ExecuteGitCommand("init");
         }
 
+        public void AddAll()
+        {
+            ExecuteGitCommand("add .");
+        }
+
+        public void Commit(string commitMessage)
+        {
+            ExecuteGitCommand($"commit -m \"{commitMessage}\"");
+        }
+
         public void AddRemote(string url)
         {
             ExecuteGitCommand($"remote add origin {url}");
+        }
+
+        public void Push()
+        {
+            ExecuteGitCommand("push -u origin master");
         }
 
         private void ExecuteGitCommand(string arguments)

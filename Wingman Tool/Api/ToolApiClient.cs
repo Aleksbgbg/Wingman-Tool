@@ -44,12 +44,12 @@
             return GetString($"template/{url}");
         }
 
-        public Task<string> GitAttributes()
+        public Task<string> GetGitAttributes()
         {
             return GetGit("attributes");
         }
 
-        public Task<string> GitIgnore()
+        public Task<string> GetGitIgnore()
         {
             return GetGit("ignore");
         }
