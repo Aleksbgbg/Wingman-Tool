@@ -25,7 +25,12 @@
 
         public async Task<RenderedFileTreeEntry> RenderFileTreeEntry(string projectType, string projectName, FileTreeEntry entry)
         {
-            string fileContents = await _toolApiClient.RenderFile(projectType, projectName, entry.RelativePath);
+            string fileContents = null;
+
+            if (!entry.IsDirectory)
+            {
+                fileContents = await _toolApiClient.RenderFile(projectType, projectName, entry.RelativePath);
+            }
 
             return new RenderedFileTreeEntry(relativePath: ReplaceProjectNameTokens(entry.RelativePath, projectName),
                                              isDirectory: entry.IsDirectory,
