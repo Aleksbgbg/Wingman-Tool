@@ -2,8 +2,6 @@
 {
     using System;
 
-    using Wingman.Tool.Cmd;
-
     public class ProjectGenerator : IProjectGenerator
     {
         private readonly IDirectoryManipulator _directoryManipulator;
@@ -36,20 +34,21 @@
 
         public void GenerateProject(string projectName)
         {
-            FileTreeTemplate fileTreeTemplate = _solutionTemplateProvider.TemplateFor(_projectType, projectName);
+            FileTreeTemplate fileTreeTemplate = _solutionTemplateProvider.TemplateFor(_projectType);
 
-            foreach (FileTreeEntry entry in fileTreeTemplate.Entries)
+            foreach (FileTreeEntry fileTreeEntry in fileTreeTemplate.Entries)
             {
-                string path = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, entry.RelativePath);
+                RenderedFileTreeEntry renderedEntry = _solutionTemplateProvider.RenderFileTreeEntry(_projectType, projectName, fileTreeEntry);
 
-                if (entry.IsDirectory)
+                string path = _directoryManipulator.PathNameRelativeToDirectory(_solutionDirectory, renderedEntry.RelativePath);
+
+                if (renderedEntry.IsDirectory)
                 {
                     _directoryManipulator.CreateDirectory(path);
                 }
                 else
                 {
-                    string fileContents = _solutionTemplateProvider.ContentsFor(_projectType, entry);
-                    _fileManipulator.CreateFile(path, fileContents);
+                    _fileManipulator.CreateFile(path, renderedEntry.Contents);
                 }
             }
         }

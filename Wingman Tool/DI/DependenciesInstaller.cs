@@ -37,7 +37,9 @@
                                         .ImplementedBy<ProjectGenerator>(),
                                Component.For<IProjectDirectoryProvider, ProjectDirectoryProvider>()
                                         .ImplementedBy<ProjectDirectoryProvider>()
-                                        .LifestyleSingleton());
+                                        .LifestyleSingleton(),
+                               Component.For<ISupportedSolutionTemplates, ISolutionTemplateProvider>()
+                                        .ImplementedBy<SolutionTemplateProvider>());
         }
     }
 }

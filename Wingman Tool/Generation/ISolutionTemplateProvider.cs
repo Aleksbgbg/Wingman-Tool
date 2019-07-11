@@ -2,8 +2,8 @@
 {
     public interface ISolutionTemplateProvider
     {
-        FileTreeTemplate TemplateFor(string projectType, string projectName);
+        FileTreeTemplate TemplateFor(string projectType);
 
-        string ContentsFor(string projectType, FileTreeEntry file);
+        RenderedFileTreeEntry RenderFileTreeEntry(string projectType, string projectName, FileTreeEntry entry);
     }
 }
