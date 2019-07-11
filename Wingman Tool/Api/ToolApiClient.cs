@@ -10,7 +10,7 @@
 
     public class ToolApiClient : IToolApiClient
     {
-        private const string BaseAddress = "http://localhost:53371/wingman-tool/template";
+        private const string BaseAddress = "http://localhost:53371/wingman-tool/template/";
 
         private readonly HttpClient _httpClient;
 
