@@ -46,7 +46,9 @@
                                Component.For<ISupportedSolutionTemplates, ISolutionTemplateProvider>()
                                         .ImplementedBy<SolutionTemplateProvider>(),
                                Component.For<IToolApiClient>()
-                                        .ImplementedBy<ToolApiClient>());
+                                        .ImplementedBy<ToolApiClient>(),
+                               Component.For<IGitClient>()
+                                        .ImplementedBy<GitClient>());
         }
     }
 }
