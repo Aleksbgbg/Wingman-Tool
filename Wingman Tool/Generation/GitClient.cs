@@ -1,15 +1,22 @@
 ﻿namespace Wingman.Tool.Generation
 {
+    using System.ComponentModel;
+
+    using NLog;
+
     public class GitClient : IGitClient
     {
         private readonly IProjectDirectoryProvider _projectDirectoryProvider;
 
         private readonly ICommandLineExecutor _commandLineExecutor;
 
-        public GitClient(IProjectDirectoryProvider projectDirectoryProvider, ICommandLineExecutor commandLineExecutor)
+        private readonly ILogger _logger;
+
+        public GitClient(IProjectDirectoryProvider projectDirectoryProvider, ICommandLineExecutor commandLineExecutor, ILogger logger)
         {
             _projectDirectoryProvider = projectDirectoryProvider;
             _commandLineExecutor = commandLineExecutor;
+            _logger = logger;
         }
 
         public void Init()
@@ -39,7 +46,15 @@
 
         private void ExecuteGitCommand(string arguments)
         {
-            _commandLineExecutor.ExecuteCommandInDirectoryWithArguments("git", _projectDirectoryProvider.SolutionDirectory, arguments);
+            try
+            {
+                _commandLineExecutor.ExecuteCommandInDirectoryWithArguments("git", _projectDirectoryProvider.SolutionDirectory, arguments);
+            }
+            catch (Win32Exception)
+            {
+                _logger.Warn("There was a problem executing a git command. Please ensure you have git, and your git folder is added to the %PATH% environment variable.");
+                throw;
+            }
         }
     }
 }
