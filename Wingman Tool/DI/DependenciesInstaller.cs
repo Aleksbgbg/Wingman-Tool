@@ -48,7 +48,9 @@
                                Component.For<IToolApiClient>()
                                         .ImplementedBy<ToolApiClient>(),
                                Component.For<IGitClient>()
-                                        .ImplementedBy<GitClient>());
+                                        .ImplementedBy<GitClient>(),
+                               Component.For<ICommandLineExecutor>()
+                                        .ImplementedBy<CommandLineExecutor>());
         }
     }
 }
