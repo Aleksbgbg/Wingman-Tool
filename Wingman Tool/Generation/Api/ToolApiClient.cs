@@ -10,7 +10,11 @@
 
     public class ToolApiClient : ITemplateApiClient, IGitApiClient
     {
+#if USE_GLOBAL_SERVER
+        private const string BaseAddress = "https://api.iamaleks.dev/wingman-tool/";
+#else
         private const string BaseAddress = "http://localhost:53371/wingman-tool/";
+#endif
 
         private readonly HttpClient _httpClient;
 
